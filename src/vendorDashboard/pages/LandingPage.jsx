@@ -7,6 +7,8 @@ import AddFirm from '../components/forms/AddFirm'
 import AddProduct from '../components/forms/AddProduct'
 import Welcome from '../components/Welcome'
 import AllProducts from '../components/AllProducts'
+import ActiveOrders from '../components/ActiveOrders'
+import VendorOrderHistory from '../components/OrderHistory'
 
 
 const LandingPage = () => {
@@ -17,7 +19,10 @@ const LandingPage = () => {
   const [showWelcome, setShowWelcome] = useState(false)
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [showLogOut, setShowLogOut] = useState(false)
+  const [showCurrent, setShowCurrent] = useState(true)
   const [showFirmTitle, setShowFirmTitle] = useState(true)
+  const [showHistory, setShowHistory] = useState(true)
+  
 
   useEffect(()=>{
     const loginToken = localStorage.getItem('loginToken');
@@ -112,8 +117,46 @@ const showAllProductsHandler = ()=>{
     setShowProduct(false)
     setShowWelcome(false)
     setShowAllProducts(true)
+    
 
-}else{
+}
+else{
+    alert("please login")
+    setShowLogin(true)
+ }
+}
+const showCurrentHandler=()=>{
+  if(showLogOut){
+    setShowRegister(false)
+    setShowLogin(false)
+    setShowFirm(false)
+    setShowProduct(false)
+    setShowWelcome(false)
+    setShowAllProducts(false)
+    setShowHistory(false)
+    setShowCurrent(true)
+    
+
+}
+else{
+    alert("please login")
+    setShowLogin(true)
+ }
+}
+const showHistorytHandler=()=>{
+  if(showLogOut){
+    setShowRegister(false)
+    setShowLogin(false)
+    setShowFirm(false)
+    setShowProduct(false)
+    setShowWelcome(false)
+    setShowAllProducts(false)
+    setShowHistory(true)
+    setShowCurrent(false)
+    
+
+}
+else{
     alert("please login")
     setShowLogin(true)
  }
@@ -127,7 +170,7 @@ const showAllProductsHandler = ()=>{
             />
             <div className="collectionSection">
             <SideBar showFirmHandler={showFirmHandler} showProductHandler ={showProductHandler}
-            showAllProductsHandler = {showAllProductsHandler}
+            showAllProductsHandler = {showAllProductsHandler} showCurrentHandler={showCurrentHandler} showHistoryHandler={showHistorytHandler}
             showFirmTitle={showFirmTitle}
             />
           {showFirm && showLogOut && <AddFirm />}
@@ -136,7 +179,8 @@ const showAllProductsHandler = ()=>{
           {showAllProducts && showLogOut && <AllProducts />}
           {showLogin && <Login showWelcomeHandler ={showWelcomeHandler}/>}
           {showRegister && <Register showLoginHandler = {showLoginHandler}/>}
-        
+          {showCurrent && showLogOut &&<ActiveOrders/>}
+          {/*{showHistory && showLogOut &&<VendorOrderHistory/>}*/}
             </div>
         </section>
     </>

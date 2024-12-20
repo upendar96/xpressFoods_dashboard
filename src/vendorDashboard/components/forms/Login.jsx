@@ -40,8 +40,13 @@ const Login = ({showWelcomeHandler}) => {
            window.location.reload();
           const vendorData = await vendorResponse.json();
           if(vendorResponse.ok){
+           
             const vendorFirmId = vendorData.vendorFirmId;
             const vendorFirmName = vendorData.vendor.firm[0].firmName;
+            const vendorDineId = vendorData.vendorDineId;
+            const vendorDineName = vendorData.vendor.dine[0].dineName;
+            localStorage.setItem('dineId', vendorDineId);
+            localStorage.setItem('dineName', vendorDineName)
             localStorage.setItem('firmId', vendorFirmId);
             localStorage.setItem('firmName', vendorFirmName)
            

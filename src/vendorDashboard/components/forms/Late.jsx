@@ -3,24 +3,25 @@ import { API_URL } from '../../data/apiPath';
 import { ThreeCircles } from 'react-loader-spinner';
 
 
-const AddProduct = () => {
+const AddLate = () => {
     const [productName, setProductName] = useState("");
     const [price, setPrice] = useState("");
-    const [region, setRegion] = useState([]);
+    const [category, setCategory] = useState([]);
     const [bestSeller, setBestSeller] = useState(false);
     const [image, setImage] = useState(null);
     const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false); 
 
 
-  const handleRegionChange = (event)=>{
-    const value = event.target.value;
-      if(region.includes(value)){
-        setRegion(region.filter((item)=> item !== value));
-      }else{
-        setRegion([...region, value])
-      }
-}
+    const handleCategoryChange = (event)=>{
+      const value = event.target.value;
+        if(category.includes(value)){
+          setCategory(category.filter((item)=> item !== value));
+        }else{
+          setCategory([...category, value])
+        }
+  }
+
   const handleBestSeller =(event)=>{
     const value = event.target.value === 'true'
       setBestSeller(value)
@@ -36,7 +37,8 @@ const AddProduct = () => {
 
       try {
         const loginToken = localStorage.getItem('loginToken');
-          const firmId = localStorage.getItem('firmId')
+        const firmId=localStorage.getItem('firmId')
+         
 
           if(!loginToken || !firmId){
               console.error("user not authenticated")
@@ -49,11 +51,11 @@ const AddProduct = () => {
         formData.append('bestSeller', bestSeller)
         formData.append('image', image)
 
-        region.forEach((value)=>{
-          formData.append('region', value)
-        })
+        category.forEach((value)=>{
+          formData.append('category', value)
+        });
    
-          const response = await fetch(`${API_URL}/product/add-product/${firmId}`, {
+          const response = await fetch(`${API_URL}/late/add-product/${firmId}`, {
             method:'POST',
             body: formData
           })
@@ -65,7 +67,7 @@ const AddProduct = () => {
             }
             setProductName("")
             setPrice("");
-            setRegion([])
+            setCategory([])
             setBestSeller(false);
             setImage(null);
             setDescription("")
@@ -100,52 +102,14 @@ const AddProduct = () => {
         <input type="text" value={price} onChange={(e)=>setPrice(e.target.value)}/>
         <div className="checkInp">
      <label >Category</label>
-         <div className="inputsContainer1">
+         <div className="inputsContainer">
          <div className="checboxContainer">
                  <label>Veg</label>
-                 <input type="checkbox" value="veg" checked ={region.includes('veg')}  onChange={handleRegionChange}/>
+                 <input type="checkbox" value="veg" checked ={category.includes('veg')}  onChange={handleCategoryChange}/>
                </div>
                <div className="checboxContainer">
-                 <label>Non-veg</label>
-                 <input type="checkbox" value="non-veg" checked ={region.includes('non-veg')} onChange={handleRegionChange} />
-               </div>
-               <div className="checboxContainer">
-                 <label>Chicken</label>
-                 <input type="checkbox" value="chiken" checked ={region.includes('chiken')} onChange={handleRegionChange} />
-               </div>
-               <div className="checboxContainer">
-                 <label>Mutton</label>
-                 <input type="checkbox" value="mutton" checked ={region.includes('mutton')} onChange={handleRegionChange} />
-               </div>
-               
-               <div className="checboxContainer">
-                 <label>Fish</label>
-                 <input type="checkbox" value="fish" checked ={region.includes('fish')} onChange={handleRegionChange} />
-               </div>
-               <div className="checboxContainer">
-                 <label>Biriyani</label>
-                 <input type="checkbox" value="biriyanies" checked ={region.includes('biriyanies')} onChange={handleRegionChange} />
-               </div>
-               <div className="checboxContainer">
-                 <label>Tiffin</label>
-                 <input type="checkbox" value="tiffins" checked ={region.includes('tiffins')} onChange={handleRegionChange} />
-               </div>
-               <div className="checboxContainer">
-                 <label>Meals</label>
-                 <input type="checkbox" value="meals" checked ={region.includes('meals')} onChange={handleRegionChange} />
-               </div>
-               
-               <div className="checboxContainer">
-                 <label>Dessert&icecreams</label>
-                 <input type="checkbox" value="desertsandicecreams" checked ={region.includes('desertsandicecreams')} onChange={handleRegionChange} />
-               </div>
-               <div className="checboxContainer">
-                 <label>roties</label>
-                 <input type="checkbox" value="roties" checked ={region.includes('roties')} onChange={handleRegionChange} />
-               </div>
-               <div className="checboxContainer">
-                 <label>smoothies</label>
-                 <input type="checkbox" value="smoothies" checked ={region.includes('smoothies')} onChange={handleRegionChange} />
+                 <label>Non-Veg</label>
+                 <input type="checkbox" value="non-veg" checked ={category.includes('non-veg')} onChange={handleCategoryChange} />
                </div>
          </div>
 
@@ -167,7 +131,7 @@ const AddProduct = () => {
        
         <label >Description</label>
         <input type="text" value={description} onChange={(e)=>setDescription(e.target.value)} />
-        <label >Firm Image</label>
+        <label >product Image</label>
         <input type="file" onChange={handleImageUpload} />
         <br />
     <div className="btnSubmit">
@@ -179,5 +143,5 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct
+export default AddLate
 
